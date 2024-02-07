@@ -1,33 +1,22 @@
 import React from 'react';
-import { View, Text, StyleSheet, Dimensions } from 'react-native';
-import ProfilePic from './componentes/Configuracao_de_contato/ProfilePic';
-import IconContainer from './componentes/Configuracao_de_contato/IconContainer';
-import InfoContainer from './componentes/Configuracao_de_contato/InfoContainer';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 
-const windowWidth = Dimensions.get('window').width;
+import SecondPage from './pages/SecondPage';
+import FirstPage from './pages/FirstPage';
+import ThirdPage from './pages/ThirdPage';
+
+const Stack = createStackNavigator();
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <ProfilePic source={require('./img/Dean.png')} />
-      <Text style={styles.name}>Ackles</Text>
-      <IconContainer />
-      <InfoContainer />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="Home" component={FirstPage} />
+        <Stack.Screen name="SecondPage" component={SecondPage} />
+        <Stack.Screen name="ThirdPage" component={ThirdPage} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#000',
-    alignItems: 'center',
-    padding: 20,
-  },
-  name: {
-    color: '#fff',
-    fontSize: 40, // Ajuste o valor conforme necessário
-    fontWeight: 'bold',
-    marginTop: 10,
-  },
-});
