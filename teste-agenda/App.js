@@ -11,7 +11,7 @@ export default function App() {
       <Stack.Navigator initialRouteName="ContactList">
         <Stack.Screen name="ContactList" component={ContactListScreen} />
         <Stack.Screen name="ContactDetail" component={ContactDetailScreen} />
-        ola
+        
       </Stack.Navigator>
     </NavigationContainer>
   );
