@@ -1,14 +1,17 @@
 import React from 'react';
-import { View, Text } from 'react-native';
-import { Card, Avatar } from 'react-native-elements';
+import { View, Text, StyleSheet } from 'react-native';
+import { Card, Image } from 'react-native-elements';
 
 const ContactDetailScreen = ({ route }) => {
   const { contact } = route.params;
 
   return (
-    <View>
+    <View style={styles.container}>
+      <Image
+        source={contact.image}
+        style={styles.avatar}
+      />
       <Card>
-        <Avatar source={{uri: contact.image}} />
         <Card.Title>{contact.name}</Card.Title>
         <Card.Divider/>
         <Text style={{marginBottom: 10}}>
@@ -30,6 +33,19 @@ const ContactDetailScreen = ({ route }) => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  avatar: {
+    width: 150,
+    height: 150,
+    borderRadius: 100
+  },
+});
 
 export default ContactDetailScreen;
 

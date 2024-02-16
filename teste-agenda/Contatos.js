@@ -1,17 +1,17 @@
 // Importando as imagens da pasta local
 import diegoImage from './img/Diego.png';
-import erickImage from './img/Erick.png';
-import felipeImage from './img/Moraes.png';
-import joaoPedroImage from './img/JoaoPedro.png';
-import joaoVictorImage from './img/Victor.png';
+import erickImage from './img/erick.png';
+import felipeImage from './img/moraes.png';
+import joaoPedroImage from './img/jp.png';
+import joaoVictorImage from './img/jv.png';
 import lucasImage from './img/LucasGustavo.png';
-import mayckImage from './img/Mayck.png';
+import mayckImage from './img/mayck.png';
 import acklesImage from './img/Dean.png';
 
 const contacts = [
   {
     name: 'Diego',
-    phone: '+55 11 98765-4321',
+    phone: '+55 11 99745-8512',
     nickname: 'Diego',
     email: 'diego123@gmail.com',
     location: 'Brasília - DF',
@@ -20,7 +20,7 @@ const contacts = [
   },
   {
     name: 'Erick',
-    phone: '+55 11 98765-4322',
+    phone: '+55 11 98171-8722',
     nickname: 'Erick',
     email: 'erick456@hotmail.com',
     location: 'Recife - PE',
@@ -29,7 +29,7 @@ const contacts = [
   },
   {
     name: 'Felipe Moraes',
-    phone: '+55 11 98765-4323',
+    phone: '+55 11 98227-6773',
     nickname: 'Felipe',
     email: 'felipe789@gmail.com',
     location: 'Porto Alegre - RS',
@@ -38,7 +38,7 @@ const contacts = [
   },
   {
     name: 'João Pedro',
-    phone: '+55 11 98765-4324',
+    phone: '+55 11 99150-8653',
     nickname: 'João',
     email: 'joao321@hotmail.com',
     location: 'Salvador - BA',
@@ -47,7 +47,7 @@ const contacts = [
   },
   {
     name: 'João Victor',
-    phone: '+55 11 98765-4325',
+    phone: '+55 11 99123-7982',
     nickname: 'Victor',
     email: 'victor654@gmail.com',
     location: 'Curitiba - PR',
@@ -56,7 +56,7 @@ const contacts = [
   },
   {
     name: 'Lucas Gustavo',
-    phone: '+55 11 98765-4326',
+    phone: '+55 11 98114-0023',
     nickname: 'Lucas',
     email: 'lucas987@hotmail.com',
     location: 'Belo Horizonte - MG',
@@ -65,7 +65,7 @@ const contacts = [
   },
   {
     name: 'Mayck',
-    phone: '+55 11 98765-4327',
+    phone: '+55 17 99809-0058',
     nickname: 'Mayck',
     email: 'mayck111@gmail.com',
     location: 'Florianópolis - SC',
@@ -74,12 +74,12 @@ const contacts = [
   },
   {
     name: 'Ackles',
-    phone: '+55 11 98765-4328',
+    phone: '+512 11 98765-4328',
     nickname: 'Ackles',
     email: 'ackles222@hotmail.com',
-    location: 'Manaus - AM',
+    location: 'Austin - TX',
     image: acklesImage,
-    additionalInfo: 'Amigo de viagem',
+    additionalInfo: 'Ator Favorito',
   }
 ];
 

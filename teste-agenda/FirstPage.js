@@ -1,6 +1,6 @@
 // ContactListScreen.js
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Text, Image } from 'react-native';
+import { View, StyleSheet, Text, Image, TouchableOpacity } from 'react-native'; // Adicione TouchableOpacity aqui
 import contacts from './Contatos'; // Importando a lista de contatos
 import CustomNavigationBar from './Componentes/CustomNavigationBar';
 import SearchBarComponent from './Componentes/SeachBarComponentes';
@@ -29,11 +29,15 @@ const ContactListScreen = ({ navigation }) => {
     <View style={styles.container}>
       <SearchBarComponent search={search} updateSearch={updateSearch} />
       {filteredContacts.map((contact, index) => (
-        <View key={index} style={styles.contactItem}>
-          <Image source={{ uri: contact.image }} style={styles.contactImage} />
+        <TouchableOpacity 
+          key={index} 
+          style={styles.contactItem}
+          onPress={() => navigation.navigate('ContactDetail', { contact })}
+        >
+          <Image source={contact.image } style={styles.contactImage} />
           <Text style={styles.contactName}>{contact.name}</Text>
           <Text style={styles.contactPhone}>{contact.phone}</Text>
-        </View>
+        </TouchableOpacity>
       ))}
       <CustomNavigationBar navigation={navigation} />
     </View>
