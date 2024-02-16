@@ -36,7 +36,6 @@ const ContactListScreen = ({ navigation }) => {
         >
           <Image source={contact.image } style={styles.contactImage} />
           <Text style={styles.contactName}>{contact.name}</Text>
-          <Text style={styles.contactPhone}>{contact.phone}</Text>
         </TouchableOpacity>
       ))}
       <CustomNavigationBar navigation={navigation} />
@@ -52,7 +51,7 @@ const styles = StyleSheet.create({
   contactItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'white',
+    backgroundColor:'#2D2D2F',
     padding: 10,
     margin: 5,
   },
@@ -64,7 +63,7 @@ const styles = StyleSheet.create({
   },
   contactName: {
     fontSize: 18,
-    color: 'black',
+    color: 'white',
   },
   contactPhone: {
     fontSize: 14,
