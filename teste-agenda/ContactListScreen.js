@@ -16,6 +16,17 @@ const SearchBarComponent = ({ search, updateSearch, style }) => {
   );
 };
 
+const isValidEmail = (email) => {
+  const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return re.test(String(email).toLowerCase());
+};
+
+const isValidPhone = (phone) => {
+  // Regex para números de telefone do Brasil, Europa e América do Norte
+  const re = /^(\+55\d{2}9\d{8})|(\+\d{1,3}[- ]?\d{10,14})$/;
+  return re.test(phone);
+};
+
 const ContactListScreen = ({ navigation }) => {
   const [search, setSearch] = useState('');
   const [contacts, setContacts] = useState([]);
@@ -30,6 +41,9 @@ const ContactListScreen = ({ navigation }) => {
     location: '',
     additionalInfo: ''
   });
+  const [formError, setFormError] = useState(''); // Novo estado para o erro do formulário
+  const [emailError, setEmailError] = useState(''); // Novo estado para o erro de e-mail
+  const [phoneError, setPhoneError] = useState(''); // Novo estado para o erro de telefone
 
   useEffect(() => {
     const initialContacts = []; // Substitua isso pelos seus contatos iniciais
@@ -71,6 +85,28 @@ const ContactListScreen = ({ navigation }) => {
   };
 
   const saveContact = () => {
+    // Verifica se todas as informações necessárias foram preenchidas
+    if (!newContact.name || !newContact.phone || !newContact.nickname || !newContact.email || !newContact.location || !newContact.additionalInfo) {
+      setFormError('Por favor, preencha todas as informações.');
+      return;
+    } else {
+      setFormError('');
+    }
+
+    if (!isValidEmail(newContact.email)) {
+      setEmailError('Por favor, insira um e-mail válido.');
+      return;
+    } else {
+      setEmailError('');
+    }
+
+    if (!isValidPhone(newContact.phone)) {
+      setPhoneError('Por favor, insira um número de telefone válido.');
+      return;
+    } else {
+      setPhoneError('');
+    }
+
     const existingContactIndex = contacts.findIndex(contact => contact.id === newContact.id);
 
     let updatedContacts;
@@ -98,6 +134,12 @@ const ContactListScreen = ({ navigation }) => {
     setShowForm(false);
   };
 
+  const removeContact = (id) => {
+    const updatedContacts = contacts.filter(contact => contact.id !== id);
+    setContacts(updatedContacts);
+    setFilteredContacts(updatedContacts); // Atualiza os resultados da pesquisa
+  };
+
   return (
     <View style={styles.container}>
       <SearchBarComponent style={styles.searchBar} search={search} updateSearch={updateSearch} />
@@ -117,6 +159,7 @@ const ContactListScreen = ({ navigation }) => {
             value={newContact.phone}
             onChangeText={text => setNewContact(prevState => ({ ...prevState, phone: text }))}
           />
+          <View style={styles.errorContainer}>{phoneError ? <Text style={styles.errorText}>{phoneError}</Text> : null}</View>
           <TextInput
             style={styles.input}
             placeholder="Apelido"
@@ -131,6 +174,7 @@ const ContactListScreen = ({ navigation }) => {
             value={newContact.email}
             onChangeText={text => setNewContact(prevState => ({ ...prevState, email: text }))}
           />
+          <View style={styles.errorContainer}>{emailError ? <Text style={styles.errorText}>{emailError}</Text> : null}</View>
           <TextInput
             style={styles.input}
             placeholder="Localização"
@@ -145,9 +189,13 @@ const ContactListScreen = ({ navigation }) => {
             value={newContact.additionalInfo}
             onChangeText={text => setNewContact(prevState => ({ ...prevState, additionalInfo: text }))}
           />
+          <View style={styles.errorContainer}>{formError ? <Text style={styles.errorText}>{formError}</Text> : null}</View>
           <Button title="Salvar Contato" onPress={saveContact} />
         </View>
       )}
+      <TouchableOpacity style={styles.addButton} onPress={() => setShowForm(true)}>
+        <Icon name="plus" size={15} color="white" />
+      </TouchableOpacity>
       {filteredContacts.map((contact, index) => (
         <TouchableOpacity
           key={index}
@@ -165,8 +213,6 @@ const ContactListScreen = ({ navigation }) => {
         </TouchableOpacity>
       ))}
       <CustomNavigationBar navigation={navigation} />
-      <Button title="Adicionar Contato" onPress={() => setShowForm(true)} />
-
     </View>
   );
 };
@@ -218,6 +264,14 @@ const styles = StyleSheet.create({
     color: 'white',
     flex: 1,
   },
+  addButton: {
+    position: 'absolute',
+    right: 34,
+    top: 28,
+    backgroundColor: '#2D2D2F',
+    padding: 5,
+    borderRadius: 50,
+  },
   buttonEdit: {
     backgroundColor: '#FFA500',
     padding: 10,
@@ -231,6 +285,13 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: 'white',
+  },
+  errorContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  errorText: {
+    color: 'red',
   },
 });
 

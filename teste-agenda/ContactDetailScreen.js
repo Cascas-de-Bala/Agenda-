@@ -1,12 +1,15 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { useNavigation } from '@react-navigation/native';
 
 const ContactDetailScreen = ({ route }) => {
   const { contact } = route.params;
+  const navigation = useNavigation();
 
   return (
     <View style={styles.container}>
+      <Icon name="arrow-left" size={30} style={styles.iconStyle} onPress={() => navigation.goBack()} />
       <View style={styles.contactItem}>
         <Text style={styles.contactName}>{contact.name}</Text>
         <View style={styles.contactInfoIconContainer}>
@@ -68,5 +71,4 @@ const styles = StyleSheet.create({
 });
 
 export default ContactDetailScreen;
-
 
