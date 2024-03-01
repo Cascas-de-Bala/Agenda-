@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, Text, Image, TouchableOpacity, Button, TextInput } from 'react-native';
+import * as ImagePicker from 'expo-image-picker';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import CustomNavigationBar from './Componentes/CustomNavigationBar';
 
@@ -39,6 +40,7 @@ const ContactListScreen = ({ navigation }) => {
     nickname: '',
     email: '',
     location: '',
+    image: '', // Inicializa como uma string vazia
     additionalInfo: ''
   });
   const [formError, setFormError] = useState(''); // Novo estado para o erro do formulário
@@ -73,6 +75,7 @@ const ContactListScreen = ({ navigation }) => {
       nickname: '',
       email: '',
       location: '',
+      image: null, // Limpa a imagem após adicionar o contato
       additionalInfo: ''
     });
     setShowForm(false);
@@ -129,6 +132,7 @@ const ContactListScreen = ({ navigation }) => {
       nickname: '',
       email: '',
       location: '',
+      image: null, // Limpa a imagem após adicionar o contato
       additionalInfo: ''
     });
     setShowForm(false);
@@ -138,6 +142,25 @@ const ContactListScreen = ({ navigation }) => {
     const updatedContacts = contacts.filter(contact => contact.id !== id);
     setContacts(updatedContacts);
     setFilteredContacts(updatedContacts); // Atualiza os resultados da pesquisa
+  };
+
+  const selectImage = async () => {
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (status !== 'granted') {
+      alert('Permissão para acessar a galeria é necessária.');
+      return;
+    }
+
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 1,
+    });
+
+    if (!result.cancelled) {
+      setNewContact(prevState => ({ ...prevState, image: result }));
+    }
   };
 
   return (
@@ -175,6 +198,7 @@ const ContactListScreen = ({ navigation }) => {
             onChangeText={text => setNewContact(prevState => ({ ...prevState, email: text }))}
           />
           <View style={styles.errorContainer}>{emailError ? <Text style={styles.errorText}>{emailError}</Text> : null}</View>
+
           <TextInput
             style={styles.input}
             placeholder="Localização"
@@ -189,7 +213,14 @@ const ContactListScreen = ({ navigation }) => {
             value={newContact.additionalInfo}
             onChangeText={text => setNewContact(prevState => ({ ...prevState, additionalInfo: text }))}
           />
+          {newContact.image && (
+            <View>
+              <Text>Imagem Selecionada:</Text>
+              <Image source={{ uri: newContact.image.assets[0].uri }} style={{ width: 50, height: 50 }} />
+            </View>
+          )}
           <View style={styles.errorContainer}>{formError ? <Text style={styles.errorText}>{formError}</Text> : null}</View>
+          <Button title="Selecionar Imagem" onPress={selectImage} />
           <Button title="Salvar Contato" onPress={saveContact} />
         </View>
       )}
@@ -202,7 +233,7 @@ const ContactListScreen = ({ navigation }) => {
           style={styles.contactItem}
           onPress={() => navigation.navigate('NewPage', { contact })}
         >
-          <Image source={contact.image} style={styles.contactImage} />
+          <Image source={{ uri: contact.image?.uri }} style={styles.contactImage} />
           <Text style={styles.contactName}>{contact.name}</Text>
           <TouchableOpacity style={styles.buttonEdit} onPress={() => editContact(contact.id)}>
             <Icon name="edit" size={20} color="white" />
